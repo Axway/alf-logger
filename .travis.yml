@@ -16,3 +16,7 @@ cache:
 
 before_cache:
   - rm -rf "$HOME/.m2/repository/io/axway/alf"
+
+notifications:
+  webhooks:
+    - secure: rVbot+gRO/+A6pNyxFOJP4wvKw99FCvAeUi7w7ZwAmIkqtvFdk17MyE9+jWAQukCqh/Z/WWxZ0jrMxazjwPBWeUNw0Ecyfhhb6mkIBvxQHrFeLQ4frIUtfrkZud4w1/qJ+1hSTBiWg0O44P94wTiXXPrUlIGQjPyMbYCGFZW2sfc6PmAwUgbxZCfkj0UIDMiORWPY3A4PwhLTMfGOkXIaxzqafNfiosg2ThU4RJW2G2uFv/VKhg1QErQ65j+oSTwSvFp/649IGyaCa3f55STBT9B818UsHwnmgVRj/4mVIBlvw7N0+GoJ6vhjH1A2b21ybj/7/pDN5YjoDsNlK6va53DbHFeCyySNDxqpbzI1OXf3QVdBt1k0nbbwjonYANfhw0Qsq9U+k+NRUYXZIkwZtZ2CG3VqJ5tm9d35iq8D2gYLcyDTsPIltVk1YTPBUiE3f33vPdly9VWghGPCjydEPsuvVqyDw77KaTowEiNhgYNlhQPGCJYIB0PwHs9rcbKaPehy7vee78DU0EmB0SvpGfZP++T/QATtzpZ2siNEDCL+WcoW5Q0fi/i79GSXYZ1I2FQ64BJxY7R8d3R6RLqmKyv3p/gGhZjINXNHPvc/nsT9BaEVXgdhz/4EbektpgAVO53wh2ATGrJV+0vcysYmtyAS/f7irfClNNvZTLxlXE=
