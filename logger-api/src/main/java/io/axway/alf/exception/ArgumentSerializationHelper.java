@@ -12,13 +12,13 @@ final class ArgumentSerializationHelper {
         if (argsConsumer != null) {
             argsConsumer.accept(new Arguments() {
                 @Override
-                public Arguments add(String key, Object value) {
+                public Arguments add(String key, @Nullable Object value) {
                     arguments.add(new Pair(key, value));
                     return this;
                 }
 
                 @Override
-                public Arguments add(String key, String value) {
+                public Arguments add(String key, @Nullable String value) {
                     arguments.add(new Pair(key, value));
                     return this;
                 }
@@ -55,9 +55,10 @@ final class ArgumentSerializationHelper {
 
     private static final class Pair {
         private final String m_key;
+        @Nullable
         private final Object m_value;
 
-        private Pair(String key, Object value) {
+        private Pair(String key, @Nullable Object value) {
             m_key = key;
             m_value = value;
         }
@@ -66,6 +67,7 @@ final class ArgumentSerializationHelper {
             return m_key;
         }
 
+        @Nullable
         private Object getValue() {
             return m_value;
         }

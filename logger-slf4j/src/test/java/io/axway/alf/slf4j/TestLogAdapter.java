@@ -1,4 +1,4 @@
-package io.axway.alf.log;
+package io.axway.alf.slf4j;
 
 import java.util.function.*;
 import org.slf4j.helpers.MarkerIgnoringBase;

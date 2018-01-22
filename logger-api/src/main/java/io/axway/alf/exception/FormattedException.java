@@ -11,7 +11,6 @@ import static io.axway.alf.internal.JsonMessageFormatter.getFormatter;
 /**
  * {@link Exception} that will be formatted using the json formatter
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class FormattedException extends Exception implements ExceptionWithArguments {
     private transient Consumer<Arguments> m_argsConsumer;
 

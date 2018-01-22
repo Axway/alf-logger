@@ -3,7 +3,6 @@ package io.axway.alf.exception;
 import java.util.function.*;
 import io.axway.alf.log.Arguments;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class IllegalStateFormattedException extends FormattedRuntimeException {
     public IllegalStateFormattedException(String message) {
         super(message);

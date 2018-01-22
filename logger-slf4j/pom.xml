@@ -10,8 +10,18 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>logger-api</artifactId>
+    <artifactId>logger-slf4j</artifactId>
     <name>${project.artifactId}</name>
-    <description>ALF API</description>
+    <description>ALF implementation over SLF4J</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.axway.alf</groupId>
+            <artifactId>logger-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

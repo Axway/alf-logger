@@ -1,4 +1,4 @@
-package io.axway.alf.log;
+package io.axway.alf.slf4j;
 
 import java.util.concurrent.atomic.*;
 import java.util.function.*;
@@ -8,11 +8,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import io.axway.alf.exception.FormattedException;
 import io.axway.alf.exception.FormattedRuntimeException;
+import io.axway.alf.log.Arguments;
+import io.axway.alf.log.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.event.Level.*;
 
-@SuppressWarnings({"Duplicates", "SameParameterValue"})
+@SuppressWarnings("Duplicates")
 public class LoggerTest {
     private static final Consumer<Throwable> IGNORE = t -> {
     };
@@ -129,14 +131,14 @@ public class LoggerTest {
 
     @Test
     public void shouldCreateALoggerWithGivenName() {
-        Logger logger = Logger.getLogger("customTest");
+        Logger logger = SLF4JLogger.getLogger("customTest");
         assertThat(logger.getName()).isEqualTo("customTest");
     }
 
     @Test
     public void shouldCreateALoggerWithGivenClass() {
-        Logger logger = Logger.getLogger(LoggerTest.class);
-        assertThat(logger.getName()).isEqualTo("io.axway.alf.log.LoggerTest");
+        Logger logger = SLF4JLogger.getLogger(LoggerTest.class);
+        assertThat(logger.getName()).isEqualTo("io.axway.alf.slf4j.LoggerTest");
     }
 
     @Test(dataProvider = "logLevels")
@@ -159,15 +161,15 @@ public class LoggerTest {
         Consumer<Throwable> throwableConsumer = lastThrowable == null ? IGNORE : lastThrowable::set;
         switch (level) {
             case ERROR:
-                return Logger.getLogger(TestLogAdapter.captureError(lastLog::set, throwableConsumer));
+                return SLF4JLogger.getLogger(TestLogAdapter.captureError(lastLog::set, throwableConsumer));
             case WARN:
-                return Logger.getLogger(TestLogAdapter.captureWarn(lastLog::set, throwableConsumer));
+                return SLF4JLogger.getLogger(TestLogAdapter.captureWarn(lastLog::set, throwableConsumer));
             case INFO:
-                return Logger.getLogger(TestLogAdapter.captureInfo(lastLog::set, throwableConsumer));
+                return SLF4JLogger.getLogger(TestLogAdapter.captureInfo(lastLog::set, throwableConsumer));
             case DEBUG:
-                return Logger.getLogger(TestLogAdapter.captureDebug(lastLog::set, throwableConsumer));
+                return SLF4JLogger.getLogger(TestLogAdapter.captureDebug(lastLog::set, throwableConsumer));
             case TRACE:
-                return Logger.getLogger(TestLogAdapter.captureTrace(lastLog::set, throwableConsumer));
+                return SLF4JLogger.getLogger(TestLogAdapter.captureTrace(lastLog::set, throwableConsumer));
             default:
                 throw new UnsupportedOperationException();
         }

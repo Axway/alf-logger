@@ -67,14 +67,14 @@ public final class JsonMessageFormatter {
         }
 
         @Override
-        public Arguments add(String key, Object value) {
+        public Arguments add(String key, @Nullable Object value) {
             writeKey(key);
             m_sb.append(format(value));
             return this;
         }
 
         @Override
-        public Arguments add(String key, String value) {
+        public Arguments add(String key, @Nullable String value) {
             writeKey(key);
             m_sb.append(format(value));
             return this;
@@ -132,7 +132,7 @@ public final class JsonMessageFormatter {
             return sb.toString();
         }
 
-        private static String format(Object object) {
+        private static String format(@Nullable Object object) {
             if (object instanceof String) {
                 return quoted(String.valueOf(object));
             } else if (object instanceof Collection) {
