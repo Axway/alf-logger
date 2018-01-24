@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>io.axway.alf</groupId>
-        <artifactId>logger</artifactId>
+        <artifactId>alf</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>logger-api</artifactId>
+    <artifactId>alf-api</artifactId>
     <name>${project.artifactId}</name>
     <description>ALF API</description>
 

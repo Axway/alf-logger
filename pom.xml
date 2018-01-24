@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.axway.alf</groupId>
-    <artifactId>logger</artifactId>
+    <artifactId>alf</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
@@ -70,9 +70,9 @@
     </distributionManagement>
 
     <modules>
-        <module>logger-api</module>
-        <module>logger-log4j</module>
-        <module>logger-slf4j</module>
+        <module>alf-api</module>
+        <module>alf-log4j</module>
+        <module>alf-slf4j</module>
     </modules>
 
     <dependencyManagement>
@@ -115,12 +115,17 @@
             <!-- own modules -->
             <dependency>
                 <groupId>io.axway.alf</groupId>
-                <artifactId>logger-api</artifactId>
+                <artifactId>alf-api</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>io.axway.alf</groupId>
-                <artifactId>logger-slf4j</artifactId>
+                <artifactId>alf-log4j</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.axway.alf</groupId>
+                <artifactId>alf-slf4j</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
