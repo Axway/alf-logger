@@ -3,10 +3,10 @@ package io.axway.alf.assertion;
 import java.util.*;
 import java.util.function.*;
 import javax.annotation.*;
+import io.axway.alf.Arguments;
 import io.axway.alf.exception.IllegalArgumentFormattedException;
 import io.axway.alf.exception.IllegalStateFormattedException;
 import io.axway.alf.exception.NullPointerFormattedException;
-import io.axway.alf.log.Arguments;
 
 public final class Assertion {
     public static void checkArgument(boolean expression, String message) {

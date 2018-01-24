@@ -2,11 +2,11 @@ package io.axway.alf.exception;
 
 import java.io.*;
 import java.util.function.*;
-import io.axway.alf.internal.JsonMessageFormatter;
-import io.axway.alf.log.Arguments;
+import io.axway.alf.Arguments;
+import io.axway.alf.formatter.JsonMessageFormatter;
 
 import static io.axway.alf.exception.ArgumentSerializationHelper.*;
-import static io.axway.alf.internal.JsonMessageFormatter.getFormatter;
+import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
 /**
  * {@link RuntimeException} that will be formatted using current json formatter

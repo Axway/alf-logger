@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package io.axway.alf.internal;
+package io.axway.alf.slf4j;
 
 import javax.annotation.*;

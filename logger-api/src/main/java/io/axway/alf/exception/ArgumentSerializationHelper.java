@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.function.*;
 import javax.annotation.*;
-import io.axway.alf.log.Arguments;
+import io.axway.alf.Arguments;
 
 final class ArgumentSerializationHelper {
     static void writeArgumentsToStream(@Nullable Consumer<Arguments> argsConsumer, ObjectOutputStream out) throws IOException {
@@ -13,18 +13,6 @@ final class ArgumentSerializationHelper {
             argsConsumer.accept(new Arguments() {
                 @Override
                 public Arguments add(String key, @Nullable Object value) {
-                    arguments.add(new Pair(key, value));
-                    return this;
-                }
-
-                @Override
-                public Arguments add(String key, @Nullable String value) {
-                    arguments.add(new Pair(key, value));
-                    return this;
-                }
-
-                @Override
-                public Arguments add(String key, long value) {
                     arguments.add(new Pair(key, value));
                     return this;
                 }

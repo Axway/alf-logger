@@ -1,28 +1,15 @@
 package io.axway.alf.slf4j;
 
 import java.util.function.*;
-
-import io.axway.alf.log.Arguments;
+import io.axway.alf.Arguments;
 import io.axway.alf.log.Logger;
 
-import static io.axway.alf.internal.JsonMessageFormatter.getFormatter;
+import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
-public final class SLF4JLogger implements Logger {
+final class SLF4JLogger implements Logger {
     private final org.slf4j.Logger m_logger;
 
-    public static Logger getLogger(String name) {
-        return new SLF4JLogger(org.slf4j.LoggerFactory.getLogger(name));
-    }
-
-    public static Logger getLogger(Class<?> clazz) {
-        return new SLF4JLogger(org.slf4j.LoggerFactory.getLogger(clazz));
-    }
-
-    public static Logger getLogger(org.slf4j.Logger logger) {
-        return new SLF4JLogger(logger);
-    }
-
-    private SLF4JLogger(org.slf4j.Logger logger) {
+    SLF4JLogger(org.slf4j.Logger logger) {
         m_logger = logger;
     }
 

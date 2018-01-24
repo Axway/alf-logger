@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import io.axway.alf.log.Arguments;
+import io.axway.alf.Arguments;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,6 +1,7 @@
 package io.axway.alf.log;
 
 import java.util.function.*;
+import io.axway.alf.Arguments;
 
 /**
  * Logger API.
@@ -9,7 +10,7 @@ public interface Logger {
 
     /**
      * Log a message at the TRACE level.
-     *
+     * <p>
      * This form avoids superfluous object creation when the logger is disabled for the TRACE level.
      *
      * @param message Constant message that represent an action

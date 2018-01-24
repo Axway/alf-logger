@@ -1,8 +1,8 @@
-package io.axway.alf.internal;
+package io.axway.alf.formatter;
 
 import org.testng.annotations.Test;
 
-import static io.axway.alf.internal.JsonMessageFormatter.getFormatter;
+import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 import static java.util.stream.Collectors.*;
 import static java.util.stream.IntStream.*;
 import static org.assertj.core.api.Assertions.assertThat;

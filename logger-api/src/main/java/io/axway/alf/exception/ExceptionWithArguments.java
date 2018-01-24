@@ -2,7 +2,7 @@ package io.axway.alf.exception;
 
 import java.util.function.*;
 import javax.annotation.*;
-import io.axway.alf.log.Arguments;
+import io.axway.alf.Arguments;
 
 public interface ExceptionWithArguments {
     /**
