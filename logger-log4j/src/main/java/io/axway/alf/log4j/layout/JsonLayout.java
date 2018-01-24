@@ -21,12 +21,6 @@ public class JsonLayout extends DateLayout {
 
     @Override
     public String format(LoggingEvent event) {
-        Object message = event.getMessage();
-        Throwable throwable = null;
-        if (event.getThrowableInformation() != null) {
-            throwable = event.getThrowableInformation().getThrowable();
-        }
-
         StringBuilder sb = new StringBuilder(128);
         JsonWriter jsonWriter = new JsonWriter(sb);
 
@@ -55,6 +49,21 @@ public class JsonLayout extends DateLayout {
             }
         }
 
+        formatPayload(jsonWriter, event);
+
+        jsonWriter.end();
+
+        sb.append(LINE_SEP);
+        return sb.toString();
+    }
+
+    private void formatPayload(JsonWriter jsonWriter, LoggingEvent event) {
+        Object message = event.getMessage();
+        Throwable throwable = null;
+        if (event.getThrowableInformation() != null) {
+            throwable = event.getThrowableInformation().getThrowable();
+        }
+
         if (message instanceof LogMessage) {
             LogMessage logMessage = (LogMessage) message;
             jsonWriter.add(m_messageKey, logMessage.getMessage());
@@ -66,11 +75,6 @@ public class JsonLayout extends DateLayout {
         if (throwable != null) {
             jsonWriter.add("exception", throwable);
         }
-
-        jsonWriter.end();
-
-        sb.append(LINE_SEP);
-        return sb.toString();
     }
 
     public boolean isThreadPrinting() {

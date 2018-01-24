@@ -87,22 +87,27 @@ public class TestLogAdapter extends MarkerIgnoringBase {
 
     @Override
     public void trace(String msg) {
+        // no-op
     }
 
     @Override
     public void trace(String format, Object arg) {
+        // no-op
     }
 
     @Override
     public void trace(String format, Object arg1, Object arg2) {
+        // no-op
     }
 
     @Override
     public void trace(String format, Object... arguments) {
+        // no-op
     }
 
     @Override
     public void trace(String msg, Throwable t) {
+        // no-op
     }
 
     @Override
@@ -112,22 +117,27 @@ public class TestLogAdapter extends MarkerIgnoringBase {
 
     @Override
     public void debug(String msg) {
+        // no-op
     }
 
     @Override
     public void debug(String format, Object arg) {
+        // no-op
     }
 
     @Override
     public void debug(String format, Object arg1, Object arg2) {
+        // no-op
     }
 
     @Override
     public void debug(String format, Object... arguments) {
+        // no-op
     }
 
     @Override
     public void debug(String msg, Throwable t) {
+        // no-op
     }
 
     @Override
@@ -137,22 +147,27 @@ public class TestLogAdapter extends MarkerIgnoringBase {
 
     @Override
     public void info(String msg) {
+        // no-op
     }
 
     @Override
     public void info(String format, Object arg) {
+        // no-op
     }
 
     @Override
     public void info(String format, Object arg1, Object arg2) {
+        // no-op
     }
 
     @Override
     public void info(String format, Object... arguments) {
+        // no-op
     }
 
     @Override
     public void info(String msg, Throwable t) {
+        // no-op
     }
 
     @Override
@@ -162,22 +177,27 @@ public class TestLogAdapter extends MarkerIgnoringBase {
 
     @Override
     public void warn(String msg) {
+        // no-op
     }
 
     @Override
     public void warn(String format, Object arg) {
+        // no-op
     }
 
     @Override
     public void warn(String format, Object... arguments) {
+        // no-op
     }
 
     @Override
     public void warn(String format, Object arg1, Object arg2) {
+        // no-op
     }
 
     @Override
     public void warn(String msg, Throwable t) {
+        // no-op
     }
 
     @Override
@@ -187,21 +207,26 @@ public class TestLogAdapter extends MarkerIgnoringBase {
 
     @Override
     public void error(String msg) {
+        // no-op
     }
 
     @Override
     public void error(String format, Object arg) {
+        // no-op
     }
 
     @Override
     public void error(String format, Object arg1, Object arg2) {
+        // no-op
     }
 
     @Override
     public void error(String format, Object... arguments) {
+        // no-op
     }
 
     @Override
     public void error(String msg, Throwable t) {
+        // no-op
     }
 }

@@ -105,6 +105,7 @@ public final class JsonWriter implements Arguments {
                     default:
                         String codePoint = "000" + Integer.toHexString(c);
                         m_sb.append("\\u").append(codePoint, codePoint.length() - 4, 4);
+                        break;
                 }
             } else if (c == '"' || c == '\\' || c == '/') {
                 m_sb.append('\\').append(c);
