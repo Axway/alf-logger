@@ -3,25 +3,29 @@ package io.axway.alf.exception;
 import java.io.*;
 import java.util.function.*;
 import io.axway.alf.Arguments;
-import io.axway.alf.formatter.JsonMessageFormatter;
 
 import static io.axway.alf.exception.ArgumentSerializationHelper.*;
 import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
 /**
- * {@link Exception} that will be formatted using the json formatter
+ * {@link Exception} that will be formatted using the JSON formatter
  */
 public class FormattedException extends Exception implements ExceptionWithArguments {
-    private transient Consumer<Arguments> m_argsConsumer;
+    private transient Consumer<Arguments> m_argsConsumer = null;
+
+    public FormattedException() {
+    }
+
+    public FormattedException(Throwable cause) {
+        super(cause);
+    }
 
     public FormattedException(String message) {
         super(message);
-        m_argsConsumer = null;
     }
 
-    public FormattedException(Throwable cause, String message) {
+    public FormattedException(String message, Throwable cause) {
         super(message, cause);
-        m_argsConsumer = null;
     }
 
     public FormattedException(String message, Consumer<Arguments> args) {
@@ -29,19 +33,14 @@ public class FormattedException extends Exception implements ExceptionWithArgume
         m_argsConsumer = args;
     }
 
-    public FormattedException(Throwable cause, String message, Consumer<Arguments> args) {
+    public FormattedException(String message, Consumer<Arguments> args, Throwable cause) {
         super(message, cause);
         m_argsConsumer = args;
     }
 
     @Override
     public String getMessage() {
-        JsonMessageFormatter formatter = getFormatter();
-        if (m_argsConsumer != null) {
-            return formatter.format(super.getMessage(), m_argsConsumer);
-        } else {
-            return formatter.format(super.getMessage());
-        }
+        return getFormatter().formatException(this);
     }
 
     @Override

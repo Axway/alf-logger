@@ -2,6 +2,7 @@ package io.axway.alf.formatter;
 
 import java.util.function.*;
 import io.axway.alf.Arguments;
+import io.axway.alf.exception.ExceptionWithArguments;
 
 public final class JsonMessageFormatter {
     private static final int DEFAULT_BUFFER_SIZE = 64;
@@ -11,6 +12,20 @@ public final class JsonMessageFormatter {
 
     public static JsonMessageFormatter getFormatter() {
         return INSTANCE;
+    }
+
+    public String formatException(ExceptionWithArguments e) {
+        String message = e.getRawMessage();
+        if (message != null) {
+            Consumer<Arguments> argsConsumer = e.getArguments();
+            if (argsConsumer != null) {
+                return format(message, argsConsumer);
+            } else {
+                return format(message);
+            }
+        } else {
+            return null;
+        }
     }
 
     public String format(String message) {

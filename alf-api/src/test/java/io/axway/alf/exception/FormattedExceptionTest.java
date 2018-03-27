@@ -32,7 +32,7 @@ public class FormattedExceptionTest {
     @Test(dataProvider = "exceptionProvider")
     public void shouldFormatMessageAndException(Class<?> clazz) throws Exception {
         Exception cause = new Exception("initial stack");
-        Exception exception = (Exception) clazz.getDeclaredConstructor(Throwable.class, String.class).newInstance(cause, "Kaboom");
+        Exception exception = (Exception) clazz.getDeclaredConstructor(String.class, Throwable.class).newInstance("Kaboom", cause);
         assertThat(exception) //
                 .hasMessage("Kaboom") //
                 .isInstanceOf(clazz) //
@@ -51,8 +51,8 @@ public class FormattedExceptionTest {
     @Test(dataProvider = "exceptionProvider")
     public void shouldFormatArgumentsAndException(Class<?> clazz) throws Exception {
         Exception cause = new Exception("initial stack");
-        Exception exception = (Exception) clazz.getDeclaredConstructor(Throwable.class, String.class, Consumer.class)
-                .newInstance(cause, "Kaboom", (Consumer<Arguments>) a -> a.add("myKey", "myValue").add("anotherKey", "anotherValue"));
+        Exception exception = (Exception) clazz.getDeclaredConstructor(String.class, Consumer.class, Throwable.class)
+                .newInstance("Kaboom", (Consumer<Arguments>) a -> a.add("myKey", "myValue").add("anotherKey", "anotherValue"), cause);
         assertThat(exception) //
                 .hasMessage("Kaboom {\"args\": {\"myKey\": \"myValue\", \"anotherKey\": \"anotherValue\"}}") //
                 .isInstanceOf(clazz) //
@@ -62,7 +62,7 @@ public class FormattedExceptionTest {
     @Test(dataProvider = "exceptionProvider")
     public void shouldSerializeException(Class<?> clazz) throws Exception {
         Exception cause = new Exception("initial stack");
-        Exception toSerialize = (Exception) clazz.getDeclaredConstructor(Throwable.class, String.class).newInstance(cause, "myMessage");
+        Exception toSerialize = (Exception) clazz.getDeclaredConstructor(String.class, Throwable.class).newInstance("myMessage", cause);
         Exception deserialized = serializationRoundTrip(toSerialize);
 
         assertThat(deserialized) //
@@ -75,8 +75,8 @@ public class FormattedExceptionTest {
     public void shouldSerializeExceptionWithArgument(Class<?> clazz) throws Exception {
         Exception cause = new Exception("initial stack");
         UUID randomUUID = UUID.randomUUID();
-        Exception toSerialize = (Exception) clazz.getDeclaredConstructor(Throwable.class, String.class, Consumer.class)
-                .newInstance(cause, "myMessage", (Consumer<Arguments>) a -> a.add("myKey", "myValue").add("anotherKey", 42).add("lastKey", randomUUID));
+        Exception toSerialize = (Exception) clazz.getDeclaredConstructor(String.class, Consumer.class, Throwable.class)
+                .newInstance("myMessage", (Consumer<Arguments>) a -> a.add("myKey", "myValue").add("anotherKey", 42).add("lastKey", randomUUID), cause);
         Exception deserialized = serializationRoundTrip(toSerialize);
 
         assertThat(deserialized) //

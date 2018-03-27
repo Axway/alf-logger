@@ -81,7 +81,7 @@ public class Log4jLoggerTest {
 
     @Test(dataProvider = "logLevels")
     public void simpleLogWithArgumentsAndExceptionWithArgumentsAndCause(Level level) {
-        Throwable throwable = new FormattedException(new FormattedRuntimeException("Root cause"), "Oups", a -> a.add("error", "I did it again"));
+        Throwable throwable = new FormattedException("Oups", a -> a.add("error", "I did it again"), new FormattedRuntimeException("Root cause"));
         getMessageArgumentAndExceptionMethod(level).accept("Test", a -> a.add("key", "value"), throwable);
 
         assertLogJson(

@@ -92,7 +92,7 @@ public class SLF4JLoggerTest {
         AtomicReference<Throwable> lastThrowable = new AtomicReference<>();
 
         Logger logger = createLogger(level, lastLog, lastThrowable);
-        Throwable throwable = new FormattedException(new FormattedRuntimeException("Root cause"), "Oups", a -> a.add("error", "I did it again"));
+        Throwable throwable = new FormattedException("Oups", a -> a.add("error", "I did it again"), new FormattedRuntimeException("Root cause"));
         getMessageArgumentAndExceptionMethod(level, logger).accept("Test", a -> a.add("key", "value"), throwable);
 
         assertThat(lastLog.get()).startsWith(

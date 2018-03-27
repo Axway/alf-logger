@@ -3,25 +3,29 @@ package io.axway.alf.exception;
 import java.io.*;
 import java.util.function.*;
 import io.axway.alf.Arguments;
-import io.axway.alf.formatter.JsonMessageFormatter;
 
 import static io.axway.alf.exception.ArgumentSerializationHelper.*;
 import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
 /**
- * {@link RuntimeException} that will be formatted using current json formatter
+ * {@link RuntimeException} that will be formatted using the JSON formatter
  */
 public class FormattedRuntimeException extends RuntimeException implements ExceptionWithArguments {
-    private transient Consumer<Arguments> m_argsConsumer;
+    private transient Consumer<Arguments> m_argsConsumer = null;
+
+    public FormattedRuntimeException() {
+    }
+
+    public FormattedRuntimeException(Throwable cause) {
+        super(cause);
+    }
 
     public FormattedRuntimeException(String message) {
         super(message);
-        m_argsConsumer = null;
     }
 
-    public FormattedRuntimeException(Throwable cause, String message) {
+    public FormattedRuntimeException(String message, Throwable cause) {
         super(message, cause);
-        m_argsConsumer = null;
     }
 
     public FormattedRuntimeException(String message, Consumer<Arguments> args) {
@@ -29,19 +33,14 @@ public class FormattedRuntimeException extends RuntimeException implements Excep
         m_argsConsumer = args;
     }
 
-    public FormattedRuntimeException(Throwable cause, String message, Consumer<Arguments> args) {
+    public FormattedRuntimeException(String message, Consumer<Arguments> args, Throwable cause) {
         super(message, cause);
         m_argsConsumer = args;
     }
 
     @Override
     public String getMessage() {
-        JsonMessageFormatter formatter = getFormatter();
-        if (m_argsConsumer != null) {
-            return formatter.format(super.getMessage(), m_argsConsumer);
-        } else {
-            return formatter.format(super.getMessage());
-        }
+        return getFormatter().formatException(this);
     }
 
     @Override
