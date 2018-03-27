@@ -10,6 +10,7 @@ import io.axway.alf.Arguments;
 import io.axway.alf.exception.FormattedException;
 import io.axway.alf.exception.FormattedRuntimeException;
 import io.axway.alf.log.Logger;
+import io.axway.alf.log.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.event.Level.*;

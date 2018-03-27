@@ -14,6 +14,11 @@
     <name>${project.artifactId}</name>
     <description>ALF implementation over SLF4J</description>
 
+    <properties>
+        <bnd.Fragment-Host>io.axway.alf.api</bnd.Fragment-Host>
+        <bnd.Export-Package/>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.axway.alf</groupId>
