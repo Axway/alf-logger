@@ -16,7 +16,7 @@
 
     <properties>
         <bnd.Fragment-Host>io.axway.alf.api</bnd.Fragment-Host>
-        <bnd.Export-Package/>
+        <bnd.Export-Package>io.axway.alf.log4j.layout</bnd.Export-Package>
     </properties>
 
     <dependencies>

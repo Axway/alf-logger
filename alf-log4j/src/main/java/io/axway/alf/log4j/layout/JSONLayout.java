@@ -4,9 +4,9 @@ import java.util.*;
 import org.apache.log4j.helpers.DateLayout;
 import org.apache.log4j.spi.LoggingEvent;
 import io.axway.alf.formatter.JsonWriter;
-import io.axway.alf.log4j.internal.LogMessage;
+import io.axway.alf.log4j.LogMessage;
 
-public class JsonLayout extends DateLayout {
+public class JSONLayout extends DateLayout {
 
     private boolean m_threadPrinting = true;
     private boolean m_levelPrinting = true;

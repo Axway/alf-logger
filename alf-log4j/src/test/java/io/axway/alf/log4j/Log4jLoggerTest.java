@@ -16,9 +16,9 @@ import static org.apache.log4j.Level.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("Duplicates")
-public class Log4JLoggerTest {
+public class Log4jLoggerTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Log4JLoggerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log4jLoggerTest.class);
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -124,8 +124,8 @@ public class Log4JLoggerTest {
 
     @Test
     public void shouldCreateALoggerWithGivenClass() {
-        Logger logger = LoggerFactory.getLogger(Log4JLoggerTest.class);
-        assertThat(logger.getName()).isEqualTo("io.axway.alf.log4j.Log4JLoggerTest");
+        Logger logger = LoggerFactory.getLogger(Log4jLoggerTest.class);
+        assertThat(logger.getName()).isEqualTo("io.axway.alf.log4j.Log4jLoggerTest");
     }
 
     private void assertLogJson(String end) {

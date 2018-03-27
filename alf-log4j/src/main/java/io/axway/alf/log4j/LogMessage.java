@@ -1,4 +1,4 @@
-package io.axway.alf.log4j.internal;
+package io.axway.alf.log4j;
 
 import java.util.function.*;
 import io.axway.alf.Arguments;

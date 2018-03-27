@@ -3,12 +3,11 @@ package io.axway.alf.log4j;
 import java.util.function.*;
 import io.axway.alf.Arguments;
 import io.axway.alf.log.Logger;
-import io.axway.alf.log4j.internal.LogMessage;
 
-final class Log4JLogger implements Logger {
+final class Log4jLogger implements Logger {
     private final org.apache.log4j.Logger m_logger;
 
-    Log4JLogger(org.apache.log4j.Logger logger) {
+    Log4jLogger(org.apache.log4j.Logger logger) {
         m_logger = logger;
     }
 
