@@ -12,7 +12,7 @@ public final class LoggerFactory {
     static {
         ILoggerFactory spi = null;
         try {
-            ServiceLoader<ILoggerFactory> serviceLoader = ServiceLoader.load(ILoggerFactory.class);
+            ServiceLoader<ILoggerFactory> serviceLoader = ServiceLoader.load(ILoggerFactory.class, ILoggerFactory.class.getClassLoader());
             Iterator<ILoggerFactory> it = serviceLoader.iterator();
 
             if (!it.hasNext()) {
