@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.event.Level.*;
 
 @SuppressWarnings("Duplicates")
-public class SLF4JLoggerTest {
+public class Slf4jLoggerTest {
 
     @DataProvider
     public Object[][] logLevels() {
@@ -147,8 +147,8 @@ public class SLF4JLoggerTest {
 
     @Test
     public void shouldCreateALoggerWithGivenClass() {
-        Logger logger = LoggerFactory.getLogger(SLF4JLoggerTest.class);
-        assertThat(logger.getName()).isEqualTo("io.axway.alf.slf4j.SLF4JLoggerTest");
+        Logger logger = LoggerFactory.getLogger(Slf4jLoggerTest.class);
+        assertThat(logger.getName()).isEqualTo("io.axway.alf.slf4j.Slf4jLoggerTest");
     }
 
     private static Logger createLogger(Level level, AtomicReference<String> lastLog) {
@@ -162,15 +162,15 @@ public class SLF4JLoggerTest {
 
         switch (level) {
             case ERROR:
-                return new SLF4JLogger(TestLogAdapter.captureError(lastLog::set, throwableConsumer));
+                return new Slf4jLogger(TestLogAdapter.captureError(lastLog::set, throwableConsumer));
             case WARN:
-                return new SLF4JLogger(TestLogAdapter.captureWarn(lastLog::set, throwableConsumer));
+                return new Slf4jLogger(TestLogAdapter.captureWarn(lastLog::set, throwableConsumer));
             case INFO:
-                return new SLF4JLogger(TestLogAdapter.captureInfo(lastLog::set, throwableConsumer));
+                return new Slf4jLogger(TestLogAdapter.captureInfo(lastLog::set, throwableConsumer));
             case DEBUG:
-                return new SLF4JLogger(TestLogAdapter.captureDebug(lastLog::set, throwableConsumer));
+                return new Slf4jLogger(TestLogAdapter.captureDebug(lastLog::set, throwableConsumer));
             case TRACE:
-                return new SLF4JLogger(TestLogAdapter.captureTrace(lastLog::set, throwableConsumer));
+                return new Slf4jLogger(TestLogAdapter.captureTrace(lastLog::set, throwableConsumer));
             default:
                 throw new UnsupportedOperationException();
         }

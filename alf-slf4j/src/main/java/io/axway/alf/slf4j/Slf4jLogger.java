@@ -6,10 +6,10 @@ import io.axway.alf.log.Logger;
 
 import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
-final class SLF4JLogger implements Logger {
+final class Slf4jLogger implements Logger {
     private final org.slf4j.Logger m_logger;
 
-    SLF4JLogger(org.slf4j.Logger logger) {
+    Slf4jLogger(org.slf4j.Logger logger) {
         m_logger = logger;
     }
 

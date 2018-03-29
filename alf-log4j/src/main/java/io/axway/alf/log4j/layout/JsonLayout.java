@@ -6,7 +6,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import io.axway.alf.formatter.JsonWriter;
 import io.axway.alf.log4j.LogMessage;
 
-public class JSONLayout extends DateLayout {
+public class JsonLayout extends DateLayout {
 
     private boolean m_threadPrinting = true;
     private boolean m_levelPrinting = true;
