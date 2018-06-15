@@ -1,5 +1,6 @@
 package io.axway.alf;
 
+import java.util.function.*;
 import javax.annotation.*;
 
 /**
@@ -14,4 +15,13 @@ public interface Arguments {
      * @return Current argument collector
      */
     Arguments add(String key, @Nullable Object value);
+
+    /**
+     * Add nested arguments
+     *
+     * @param key argument key
+     * @param arguments Nested arguments
+     * @return Current argument collector
+     */
+    Arguments add(String key, @Nullable Consumer<Arguments> arguments);
 }

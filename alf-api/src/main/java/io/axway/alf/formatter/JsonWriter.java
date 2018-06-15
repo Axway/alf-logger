@@ -17,11 +17,19 @@ public final class JsonWriter implements Arguments {
 
     @Override
     public JsonWriter add(String key, @Nullable Object value) {
-        m_sb.append(m_separator);
-        m_separator = ", ";
-        write(key);
-        m_sb.append(": ");
-        write(value);
+        writeKey(key);
+        writeObject(value);
+        return this;
+    }
+
+    @Override
+    public JsonWriter add(String key, @Nullable Consumer<Arguments> arguments) {
+        writeKey(key);
+        if (arguments != null) {
+            writeConsumer(arguments);
+        } else {
+            m_sb.append("null");
+        }
         return this;
     }
 
@@ -29,8 +37,18 @@ public final class JsonWriter implements Arguments {
         m_sb.append("}");
     }
 
-    private void write(@Nullable Object object) {
-        if (object instanceof Collection) {
+    private void writeKey(String key) {
+        m_sb.append(m_separator);
+        m_separator = ", ";
+        writeString(key);
+        m_sb.append(": ");
+    }
+
+    private void writeObject(@Nullable Object object) {
+        if (object instanceof Consumer) {
+            @SuppressWarnings("unchecked") Consumer<Arguments> consumer = (Consumer<Arguments>) object;
+            writeConsumer(consumer);
+        } else if (object instanceof Collection) {
             m_sb.append('[');
             Collection<?> c = (Collection<?>) object;
             boolean first = true;
@@ -40,30 +58,29 @@ public final class JsonWriter implements Arguments {
                 } else {
                     first = false;
                 }
-                write(o);
+                writeObject(o);
             }
             m_sb.append(']');
-        } else if (object instanceof Consumer<?>) {
-            // assume it's a Consumer<Arguments>
-            //noinspection unchecked
-            write((Consumer<Arguments>) object);
+        } else if (object instanceof Map<?, ?>) {
+            Map<?, ?> map = (Map<?, ?>) object;
+            writeConsumer(args -> map.forEach((k, v) -> args.add(String.valueOf(k), v)));
         } else if (object instanceof Throwable) {
-            write((Throwable) object);
+            writeThrowable((Throwable) object);
         } else if (object instanceof Number || object instanceof Boolean || object == null) {
             m_sb.append(String.valueOf(object));
         } else {
-            write(String.valueOf(object));
+            writeString(String.valueOf(object));
         }
     }
 
-    private void write(Consumer<Arguments> argsConsumer) {
+    private void writeConsumer(Consumer<Arguments> argsConsumer) {
         JsonWriter jsonWriter = new JsonWriter(m_sb);
         argsConsumer.accept(jsonWriter);
         jsonWriter.end();
     }
 
-    private void write(Throwable throwable) {
-        write(args -> {
+    private void writeThrowable(Throwable throwable) {
+        writeConsumer(args -> {
             args.add("type", throwable.getClass().getName());
             args.add("message", throwable instanceof ExceptionWithArguments ? ((ExceptionWithArguments) throwable).getRawMessage() : throwable.getMessage());
 
@@ -80,7 +97,7 @@ public final class JsonWriter implements Arguments {
         });
     }
 
-    private void write(CharSequence string) {
+    private void writeString(CharSequence string) {
         int len = string.length();
         m_sb.append('"');
         for (int i = 0; i < len; i++) {
