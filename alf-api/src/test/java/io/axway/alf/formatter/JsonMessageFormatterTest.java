@@ -3,6 +3,7 @@ package io.axway.alf.formatter;
 import org.testng.annotations.Test;
 
 import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
+import static java.util.Collections.*;
 import static java.util.stream.Collectors.*;
 import static java.util.stream.IntStream.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +37,18 @@ public class JsonMessageFormatterTest {
     public void testFormatWithListOfStringAsArgument() {
         String message = getFormatter().format("myMessage", a -> a.add("myList", range(0, 5).mapToObj(i -> "value_" + i).collect(toList())));
         assertThat(message).isEqualTo("myMessage {\"args\": {\"myList\": [\"value_0\", \"value_1\", \"value_2\", \"value_3\", \"value_4\"]}}");
+    }
+
+    @Test
+    public void testFormatWithMapAsArguments() {
+        String message = getFormatter().format("myMessage", a -> a.add("nested", singletonMap("key", "value")));
+        assertThat(message).isEqualTo("myMessage {\"args\": {\"nested\": {\"key\": \"value\"}}}");
+    }
+
+    @Test
+    public void testFormatWithNestedArguments() {
+        String message = getFormatter().format("myMessage", a -> a.add("nested", a2 -> a2.add("key", "value")));
+        assertThat(message).isEqualTo("myMessage {\"args\": {\"nested\": {\"key\": \"value\"}}}");
     }
 
     @Test
@@ -78,5 +91,19 @@ public class JsonMessageFormatterTest {
     public void testFormatWithNullAsArgument() {
         String message = getFormatter().format("myMessage", a -> a.add("myKey", null));
         assertThat(message).isEqualTo("myMessage {\"args\": {\"myKey\": null}}");
+    }
+
+    @Test
+    public void testFormatThrowableOnly() {
+        String message = getFormatter().format("myMessage", new IllegalStateException("Kaboom"));
+        assertThat(message).isEqualTo("myMessage {\"exception\": {\"type\": \"java.lang.IllegalStateException\", \"message\": \"Kaboom\"}}");
+    }
+
+    @Test
+    public void testFormatAll() {
+        String message = getFormatter().format("myMessage", a -> a.add("string", "foo").add("int", 42).add("nested", a2 -> a2.add("key", "value")),
+                                               new IllegalStateException("Kaboom"));
+        assertThat(message).isEqualTo("myMessage {\"args\": {\"string\": \"foo\", \"int\": 42, \"nested\": {\"key\": \"value\"}}, "
+                                              + "\"exception\": {\"type\": \"java.lang.IllegalStateException\", \"message\": \"Kaboom\"}}");
     }
 }
