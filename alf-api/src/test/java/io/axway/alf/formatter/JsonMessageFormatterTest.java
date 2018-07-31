@@ -1,5 +1,6 @@
 package io.axway.alf.formatter;
 
+import java.nio.file.Paths;
 import org.testng.annotations.Test;
 
 import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
@@ -105,5 +106,17 @@ public class JsonMessageFormatterTest {
                                                new IllegalStateException("Kaboom"));
         assertThat(message).isEqualTo("myMessage {\"args\": {\"string\": \"foo\", \"int\": 42, \"nested\": {\"key\": \"value\"}}, "
                                               + "\"exception\": {\"type\": \"java.lang.IllegalStateException\", \"message\": \"Kaboom\"}}");
+    }
+
+    @Test
+    public void testFormatWithBackslash() {
+        String message = getFormatter().format("myMessage", a -> a.add("myKey", "\\myValue"));
+        assertThat(message).isEqualTo("myMessage {\"args\": {\"myKey\": \"\\myValue\"}}");
+    }
+
+    @Test
+    public void testFormatWithPath() {
+        String message = getFormatter().format("myMessage", a -> a.add("myKey", Paths.get("root", "child")));
+        assertThat(message).isEqualTo("myMessage {\"args\": {\"myKey\": \"root\\child\"}}");
     }
 }
