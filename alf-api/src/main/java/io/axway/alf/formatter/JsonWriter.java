@@ -124,7 +124,7 @@ public final class JsonWriter implements Arguments {
                         m_sb.append("\\u").append(codePoint, codePoint.length() - 4, 4);
                         break;
                 }
-            } else if (c == '"' || c == '\\') {
+            } else if (c == '"') {
                 m_sb.append('\\').append(c);
             } else {
                 m_sb.append(c);
