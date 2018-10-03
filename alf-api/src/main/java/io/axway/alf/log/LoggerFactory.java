@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Entry point class to retrieve {@link Logger} objects.<p>
- * Under the hood this class delegate to an {@link ILoggerFactory} implementation that is found thanks to JDK {@code ServiceLoader} mechanism.<p>
+ * Under the hood this class delegate to an {@link ILoggerFactory} implementation that is found thanks to JDK {@code ServiceLoader} mechanism.
  */
 public final class LoggerFactory {
     private static final ILoggerFactory DELEGATE;
