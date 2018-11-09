@@ -44,7 +44,6 @@ public final class AlfJsonLayout extends AbstractStringLayout {
         private String m_messageKey = "message";
 
         public Builder() {
-            super();
             setCharset(StandardCharsets.UTF_8);
         }
 
