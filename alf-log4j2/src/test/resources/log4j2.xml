@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+        <Console name="ConsoleTTCC" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%date{ISO8601} [%thread] %level %logger - %message%n"/>
+        </Console>
+        <Console name="ConsoleJSON" target="SYSTEM_OUT" follow="true">
+            <AlfJsonLayout/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="ConsoleTTCC"/>
+            <AppenderRef ref="ConsoleJSON"/>
+        </Root>
+    </Loggers>
+</Configuration>

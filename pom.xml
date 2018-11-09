@@ -46,6 +46,10 @@
             <name>Xavier Fournet</name>
             <url>https://github.com/xfournet</url>
         </developer>
+        <developer>
+            <name>Antoine Dessaigne</name>
+            <url>https://github.com/adessaigne</url>
+        </developer>
     </developers>
 
     <scm>
@@ -74,6 +78,7 @@
     <modules>
         <module>alf-api</module>
         <module>alf-log4j</module>
+        <module>alf-log4j2</module>
         <module>alf-slf4j</module>
     </modules>
 
@@ -93,6 +98,16 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.25</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.11.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.11.1</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
