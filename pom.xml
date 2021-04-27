@@ -77,7 +77,6 @@
 
     <modules>
         <module>alf-api</module>
-        <module>alf-log4j</module>
         <module>alf-log4j2</module>
         <module>alf-slf4j</module>
     </modules>
@@ -88,11 +87,6 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>3.0.2</version>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -132,11 +126,6 @@
             <dependency>
                 <groupId>io.axway.alf</groupId>
                 <artifactId>alf-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.axway.alf</groupId>
-                <artifactId>alf-log4j</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
