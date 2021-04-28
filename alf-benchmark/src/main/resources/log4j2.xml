@@ -1,0 +1,10 @@
+<Configuration>
+    <Appenders>
+        <File name="logfile" fileName="target/log4j2.log" immediateFlush="false"/>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="logfile"/>
+        </Root>
+    </Loggers>
+</Configuration>

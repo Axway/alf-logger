@@ -22,6 +22,9 @@
         <bnd.Import-Package>*</bnd.Import-Package>
         <bnd.Export-Package>{local-packages}</bnd.Export-Package>
         <bnd.Fragment-Host/>
+        <log4j.version>2.14.1</log4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <jmh.version>1.29</jmh.version>
     </properties>
 
     <licenses>
@@ -77,6 +80,7 @@
 
     <modules>
         <module>alf-api</module>
+        <module>alf-benchmark</module>
         <module>alf-log4j2</module>
         <module>alf-slf4j</module>
     </modules>
@@ -91,22 +95,34 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
-                <version>2.14.1</version>
+                <version>${log4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
-                <version>2.14.1</version>
+                <version>${log4j.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>1.7.30</version>
+                <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -136,6 +152,11 @@
             <dependency>
                 <groupId>io.axway.alf</groupId>
                 <artifactId>alf-slf4j</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.axway.alf</groupId>
+                <artifactId>alf-benchmark</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
@@ -240,6 +261,11 @@
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.8</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
