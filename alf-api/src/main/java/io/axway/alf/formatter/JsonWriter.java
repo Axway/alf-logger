@@ -12,7 +12,7 @@ public final class JsonWriter implements Arguments {
 
     public JsonWriter(StringBuilder sb) {
         m_sb = sb;
-        m_sb.append("{");
+        m_sb.append('{');
     }
 
     @Override
@@ -33,8 +33,40 @@ public final class JsonWriter implements Arguments {
         return this;
     }
 
+    @Override
+    public Arguments add(String key, @Nullable String value) {
+        writeKey(key);
+        if (value != null) {
+            writeString(value);
+        } else {
+            m_sb.append("null");
+        }
+        return this;
+    }
+
+    @Override
+    public Arguments add(String key, int value) {
+        writeKey(key);
+        m_sb.append(value);
+        return this;
+    }
+
+    @Override
+    public Arguments add(String key, long value) {
+        writeKey(key);
+        m_sb.append(value);
+        return this;
+    }
+
+    @Override
+    public Arguments add(String key, double value) {
+        writeKey(key);
+        m_sb.append(value);
+        return this;
+    }
+
     public void end() {
-        m_sb.append("}");
+        m_sb.append('}');
     }
 
     private void writeKey(String key) {
@@ -67,7 +99,7 @@ public final class JsonWriter implements Arguments {
         } else if (object instanceof Throwable) {
             writeThrowable((Throwable) object);
         } else if (object instanceof Number || object instanceof Boolean || object == null) {
-            m_sb.append(String.valueOf(object));
+            m_sb.append(object);
         } else {
             writeString(String.valueOf(object));
         }

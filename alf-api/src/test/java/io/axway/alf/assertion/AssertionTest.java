@@ -67,7 +67,7 @@ public class AssertionTest {
 
     @Test(expectedExceptions = NullPointerFormattedException.class, expectedExceptionsMessageRegExp = "Check not null should fail \\{\"args\": \\{\"value\": null}}")
     public void testCheckNullWithMessageArguments() throws Exception {
-        checkNotNull(null, "Check not null should fail", a -> a.add("value", null));
+        checkNotNull(null, "Check not null should fail", a -> a.add("value", (Object) null));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class AssertionTest {
 
     @Test(expectedExceptions = NullPointerFormattedException.class, expectedExceptionsMessageRegExp = "Check not null nor empty should fail \\{\"args\": \\{\"value\": null}}")
     public void testCheckNullStringWithMessageArguments() throws Exception {
-        checkNotNullNorEmpty((String) null, "Check not null nor empty should fail", a -> a.add("value", null));
+        checkNotNullNorEmpty((String) null, "Check not null nor empty should fail", a -> a.add("value", (Object) null));
     }
 
     @Test(expectedExceptions = IllegalStateFormattedException.class, expectedExceptionsMessageRegExp = "Check not null nor empty should fail \\{\"args\": \\{\"value\": \"\"}}")
@@ -126,7 +126,7 @@ public class AssertionTest {
 
     @Test(expectedExceptions = NullPointerFormattedException.class, expectedExceptionsMessageRegExp = "Check not null nor empty should fail \\{\"args\": \\{\"value\": null}}")
     public void testCheckNullCollectionWithMessageArguments() throws Exception {
-        checkNotNullNorEmpty((Collection<?>) null, "Check not null nor empty should fail", a -> a.add("value", null));
+        checkNotNullNorEmpty((Collection<?>) null, "Check not null nor empty should fail", a -> a.add("value", (Object) null));
     }
 
     @Test(expectedExceptions = IllegalStateFormattedException.class, expectedExceptionsMessageRegExp = "Check not null nor empty should fail \\{\"args\": \\{\"value\": \\[]}}")

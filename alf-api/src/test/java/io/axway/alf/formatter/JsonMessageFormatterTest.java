@@ -89,7 +89,7 @@ public class JsonMessageFormatterTest {
 
     @Test
     public void testFormatWithNullAsArgument() {
-        String message = getFormatter().format("myMessage", a -> a.add("myKey", null));
+        String message = getFormatter().format("myMessage", a -> a.add("myKey", (Object) null));
         assertThat(message).isEqualTo("myMessage {\"args\": {\"myKey\": null}}");
     }
 

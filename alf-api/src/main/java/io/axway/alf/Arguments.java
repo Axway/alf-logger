@@ -8,20 +8,64 @@ import javax.annotation.*;
  */
 public interface Arguments {
     /**
-     * Add a arguments
+     * Adds an argument
      *
      * @param key argument key
      * @param value argument value
-     * @return Current argument collector
+     * @return current argument collector
      */
     Arguments add(String key, @Nullable Object value);
 
     /**
-     * Add nested arguments
+     * Adds nested arguments
      *
      * @param key argument key
-     * @param arguments Nested arguments
-     * @return Current argument collector
+     * @param arguments nested arguments
+     * @return current argument collector
      */
     Arguments add(String key, @Nullable Consumer<Arguments> arguments);
+
+    /**
+     * Adds a String argument
+     *
+     * @param key argument key
+     * @param value argument value
+     * @return current argument collector
+     */
+    default Arguments add(String key, @Nullable String value) {
+        return add(key, (Object) value);
+    }
+
+    /**
+     * Adds an integer argument
+     *
+     * @param key argument key
+     * @param value argument value
+     * @return current argument collector
+     */
+    default Arguments add(String key, int value) {
+        return add(key, (Object) value);
+    }
+
+    /**
+     * Adds a long argument
+     *
+     * @param key argument key
+     * @param value argument value
+     * @return current argument collector
+     */
+    default Arguments add(String key, long value) {
+        return add(key, (Object) value);
+    }
+
+    /**
+     * Adds a double argument
+     *
+     * @param key argument key
+     * @param value argument value
+     * @return current argument collector
+     */
+    default Arguments add(String key, double value) {
+        return add(key, (Object) value);
+    }
 }
