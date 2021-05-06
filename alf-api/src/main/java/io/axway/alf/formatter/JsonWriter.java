@@ -7,6 +7,16 @@ import io.axway.alf.Arguments;
 import io.axway.alf.exception.ExceptionWithArguments;
 
 public final class JsonWriter implements Arguments {
+    private static final String[] CONTROL_CHARS_ESCAPE_CODES = { //
+            "\\u0000", "\\u0001", "\\u0002", "\\u0003",  //
+            "\\u0004", "\\u0005", "\\u0006", "\\u0007",  //
+            "\\b", "\\t", "\\n", "\\u000B",              //
+            "\\f", "\\r", "\\u000E", "\\u000F",          //
+            "\\u0010", "\\u0011", "\\u0012", "\\u0013",  //
+            "\\u0014", "\\u0015", "\\u0016", "\\u0017",  //
+            "\\u0018", "\\u0019", "\\u001A", "\\u001B",  //
+            "\\u001C", "\\u001D", "\\u001E", "\\u001F"};
+
     private final StringBuilder m_sb;
     private String m_separator = "";
 
@@ -129,39 +139,35 @@ public final class JsonWriter implements Arguments {
         });
     }
 
-    private void writeString(CharSequence string) {
-        int len = string.length();
+    /**
+     * Writes a String into the buffer.
+     * <p/>
+     * This methods needs to be fast because it's called for each key and for most of the values but it also needs to
+     * escape special characters (even if it's uncommon it needs to be done).
+     * <p/>
+     * Reading each input string character, checking it and then writing it into the buffer is slow.
+     * Checking if there's no character to escape and then printing it directly if possible is faster.
+     * The fastest way (yet) is to print it directly and then fix escaping afterwards.
+     * Also, having a mapping table for the control characters helps too.
+     *
+     * @param string String to write
+     */
+    private void writeString(String string) {
         m_sb.append('"');
-        for (int i = 0; i < len; i++) {
-            char c = string.charAt(i);
-            if (c < ' ') {
-                switch (c) {
-                    case '\b':
-                        m_sb.append("\\b");
-                        break;
-                    case '\t':
-                        m_sb.append("\\t");
-                        break;
-                    case '\n':
-                        m_sb.append("\\n");
-                        break;
-                    case '\f':
-                        m_sb.append("\\f");
-                        break;
-                    case '\r':
-                        m_sb.append("\\r");
-                        break;
-                    default:
-                        String codePoint = "000" + Integer.toHexString(c);
-                        m_sb.append("\\u").append(codePoint, codePoint.length() - 4, 4);
-                        break;
-                }
+
+        int start = m_sb.length();
+        m_sb.append(string);
+        int end = m_sb.length();
+
+        for (int i = end - 1; i >= start; i--) {
+            char c = m_sb.charAt(i);
+            if (c < CONTROL_CHARS_ESCAPE_CODES.length) {
+                m_sb.replace(i, i + 1, CONTROL_CHARS_ESCAPE_CODES[c]);
             } else if (c == '"' || c == '\\') {
-                m_sb.append('\\').append(c);
-            } else {
-                m_sb.append(c);
+                m_sb.insert(i, '\\');
             }
         }
+
         m_sb.append('"');
     }
 }
