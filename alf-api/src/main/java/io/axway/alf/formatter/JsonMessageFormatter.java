@@ -34,29 +34,35 @@ public final class JsonMessageFormatter {
 
     public String format(String message, Throwable throwable) {
         StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
-
-        sb.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(sb).add("exception", throwable).end();
-
+        formatTo(sb, message, throwable);
         return sb.toString();
+    }
+
+    public void formatTo(StringBuilder buffer, String message, Throwable throwable) {
+        buffer.append(message).append(MESSAGE_SEPARATOR);
+        new JsonWriter(buffer).add("exception", throwable).end();
     }
 
     public String format(String message, Consumer<Arguments> arguments) {
         StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
-
-        sb.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(sb).add("args", arguments).end();
-
+        formatTo(sb, message, arguments);
         return sb.toString();
+    }
+
+    public void formatTo(StringBuilder buffer, String message, Consumer<Arguments> arguments) {
+        buffer.append(message).append(MESSAGE_SEPARATOR);
+        new JsonWriter(buffer).add("args", arguments).end();
     }
 
     public String format(String message, Consumer<Arguments> arguments, Throwable throwable) {
         StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_SIZE);
-
-        sb.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(sb).add("args", arguments).add("exception", throwable).end();
-
+        formatTo(sb, message, arguments, throwable);
         return sb.toString();
+    }
+
+    public void formatTo(StringBuilder buffer, String message, Consumer<Arguments> arguments, Throwable throwable) {
+        buffer.append(message).append(MESSAGE_SEPARATOR);
+        new JsonWriter(buffer).add("args", arguments).add("exception", throwable).end();
     }
 
     private JsonMessageFormatter() {

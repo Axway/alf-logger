@@ -1,6 +1,7 @@
 package io.axway.alf.log4j2;
 
 import java.util.function.*;
+import org.apache.logging.log4j.util.MessageSupplier;
 import io.axway.alf.Arguments;
 import io.axway.alf.log.Logger;
 
@@ -18,7 +19,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void trace(String message, Consumer<Arguments> arguments) {
-        m_logger.trace(() -> new Log4j2Message(message, arguments));
+        m_logger.trace((MessageSupplier) new Log4j2Message(message, arguments));
     }
 
     @Override
@@ -28,7 +29,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void trace(String message, Consumer<Arguments> arguments, Throwable throwable) {
-        m_logger.trace(() -> new Log4j2Message(message, arguments), throwable);
+        m_logger.trace((MessageSupplier) new Log4j2Message(message, arguments), throwable);
     }
 
     @Override
@@ -38,7 +39,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void debug(String message, Consumer<Arguments> arguments) {
-        m_logger.debug(() -> new Log4j2Message(message, arguments));
+        m_logger.debug((MessageSupplier) new Log4j2Message(message, arguments));
     }
 
     @Override
@@ -48,7 +49,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void debug(String message, Consumer<Arguments> arguments, Throwable throwable) {
-        m_logger.debug(() -> new Log4j2Message(message, arguments), throwable);
+        m_logger.debug((MessageSupplier) new Log4j2Message(message, arguments), throwable);
     }
 
     @Override
@@ -58,7 +59,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void info(String message, Consumer<Arguments> arguments) {
-        m_logger.info(() -> new Log4j2Message(message, arguments));
+        m_logger.info((MessageSupplier) new Log4j2Message(message, arguments));
     }
 
     @Override
@@ -68,7 +69,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void info(String message, Consumer<Arguments> arguments, Throwable throwable) {
-        m_logger.info(() -> new Log4j2Message(message, arguments), throwable);
+        m_logger.info((MessageSupplier) new Log4j2Message(message, arguments), throwable);
     }
 
     @Override
@@ -78,7 +79,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void warn(String message, Consumer<Arguments> arguments) {
-        m_logger.warn(() -> new Log4j2Message(message, arguments));
+        m_logger.warn((MessageSupplier) new Log4j2Message(message, arguments));
     }
 
     @Override
@@ -88,7 +89,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void warn(String message, Consumer<Arguments> arguments, Throwable throwable) {
-        m_logger.warn(() -> new Log4j2Message(message, arguments), throwable);
+        m_logger.warn((MessageSupplier) new Log4j2Message(message, arguments), throwable);
     }
 
     @Override
@@ -98,7 +99,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void error(String message, Consumer<Arguments> arguments) {
-        m_logger.error(() -> new Log4j2Message(message, arguments));
+        m_logger.error((MessageSupplier) new Log4j2Message(message, arguments));
     }
 
     @Override
@@ -108,7 +109,7 @@ final class Log4j2Logger implements Logger {
 
     @Override
     public void error(String message, Consumer<Arguments> arguments, Throwable throwable) {
-        m_logger.error(() -> new Log4j2Message(message, arguments), throwable);
+        m_logger.error((MessageSupplier) new Log4j2Message(message, arguments), throwable);
     }
 
     @Override
