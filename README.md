@@ -1,5 +1,5 @@
 [![Licence](https://img.shields.io/github/license/Axway/alf-logger.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Build Status](https://travis-ci.org/Axway/alf-logger.svg?branch=master)](https://travis-ci.org/Axway/alf-logger)
+[![Build Status](https://github.com/Axway/alf-logger/actions/workflows/main.yml/badge.svg)](https://github.com/Axway/alf-logger/actions/workflows/main.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.axway.alf/alf.svg)](https://search.maven.org/#search|ga|1|g:"io.axway.alf")
 [![Javadoc](https://javadoc.io/badge/io.axway.alf/alf-api.svg)](https://javadoc.io/doc/io.axway.alf/alf-api)
 
