@@ -10,13 +10,13 @@ import static io.axway.alf.formatter.JsonMessageFormatter.getFormatter;
 
 /**
  * This class converts a message with arguments into a Log4j2 {@link Message}.
- * <p/>
+ * <p>
  * When a log message is ignored (e.g. not printed in log files), Log4j2 processes {@link MessageSupplier} objects
  * twice faster than {@link Message} objects (even if message is not formatted).
- * <p/>
+ * <p>
  * Having the same object implementing both {@link MessageSupplier} and {@link Message} is a bit faster than two
  * separate objects.
- * <p/>
+ * <p>
  * Benchmarks don't show significant performance improvements by implementing {@link StringBuilderFormattable} but it
  * can't hurt and seems to be the norm other implementations
  */
