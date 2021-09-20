@@ -67,8 +67,8 @@
     </issueManagement>
 
     <ciManagement>
-        <url>https://travis-ci.org/Axway/alf</url>
-        <system>Travis CI</system>
+        <url>https://github.com/Axway/alf/actions</url>
+        <system>GitHub Actions</system>
     </ciManagement>
 
     <distributionManagement>
