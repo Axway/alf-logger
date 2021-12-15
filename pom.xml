@@ -14,7 +14,7 @@
     <url>https://axway.github.io/alf-logger</url>
 
     <properties>
-        <revision>0.14.0</revision>
+        <revision>0.15.0-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
