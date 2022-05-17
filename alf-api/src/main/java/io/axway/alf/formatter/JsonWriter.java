@@ -18,17 +18,26 @@ public final class JsonWriter implements Arguments {
             "\\u001C", "\\u001D", "\\u001E", "\\u001F"};
 
     private final StringBuilder m_sb;
-    private String m_separator = "";
+    // This is where we can go back in case of exception
+    private int m_safePoint;
+    // Comparing this to the safe point tells if we need to add the comma separator
+    private int m_startOfObject;
 
     public JsonWriter(StringBuilder sb) {
         m_sb = sb;
         m_sb.append('{');
+        m_safePoint = m_startOfObject = m_sb.length();
     }
 
     @Override
     public JsonWriter add(String key, @Nullable Object value) {
         writeKey(key);
-        writeObject(value);
+        try {
+            writeObject(value);
+            markSafePoint();
+        } finally {
+            resetToLastSafePoint();
+        }
         return this;
     }
 
@@ -39,6 +48,7 @@ public final class JsonWriter implements Arguments {
             writeConsumer(arguments);
         } else {
             m_sb.append("null");
+            markSafePoint();
         }
         return this;
     }
@@ -51,6 +61,7 @@ public final class JsonWriter implements Arguments {
         } else {
             m_sb.append("null");
         }
+        markSafePoint();
         return this;
     }
 
@@ -58,6 +69,7 @@ public final class JsonWriter implements Arguments {
     public Arguments add(String key, int value) {
         writeKey(key);
         m_sb.append(value);
+        markSafePoint();
         return this;
     }
 
@@ -65,6 +77,7 @@ public final class JsonWriter implements Arguments {
     public Arguments add(String key, long value) {
         writeKey(key);
         m_sb.append(value);
+        markSafePoint();
         return this;
     }
 
@@ -72,6 +85,7 @@ public final class JsonWriter implements Arguments {
     public Arguments add(String key, double value) {
         writeKey(key);
         m_sb.append(value);
+        markSafePoint();
         return this;
     }
 
@@ -79,9 +93,21 @@ public final class JsonWriter implements Arguments {
         m_sb.append('}');
     }
 
+    private void markSafePoint() {
+        m_safePoint = m_sb.length();
+    }
+
+    private void resetToLastSafePoint() {
+        final int safePoint = m_safePoint;
+        if (m_sb.length() > safePoint) {
+            m_sb.setLength(safePoint);
+        }
+    }
+
     private void writeKey(String key) {
-        m_sb.append(m_separator);
-        m_separator = ", ";
+        if (m_startOfObject != m_safePoint) {
+            m_sb.append(", ");
+        }
         writeString(key);
         m_sb.append(": ");
     }
@@ -92,17 +118,23 @@ public final class JsonWriter implements Arguments {
             writeConsumer(consumer);
         } else if (object instanceof Collection) {
             m_sb.append('[');
-            Collection<?> c = (Collection<?>) object;
-            boolean first = true;
-            for (Object o : c) {
-                if (!first) {
-                    m_sb.append(", ");
-                } else {
-                    first = false;
+            markSafePoint();
+            try {
+                Iterator<?> iterator = ((Collection<?>) object).iterator();
+                if (iterator.hasNext()) {
+                    writeObject(iterator.next());
+                    markSafePoint();
                 }
-                writeObject(o);
+                while (iterator.hasNext()) {
+                    m_sb.append(", ");
+                    writeObject(iterator.next());
+                    markSafePoint();
+                }
+            } finally {
+                resetToLastSafePoint();
+                m_sb.append(']');
+                markSafePoint();
             }
-            m_sb.append(']');
         } else if (object instanceof Map<?, ?>) {
             Map<?, ?> map = (Map<?, ?>) object;
             writeConsumer(args -> map.forEach((k, v) -> args.add(String.valueOf(k), v)));
@@ -116,9 +148,21 @@ public final class JsonWriter implements Arguments {
     }
 
     private void writeConsumer(Consumer<Arguments> argsConsumer) {
-        JsonWriter jsonWriter = new JsonWriter(m_sb);
-        argsConsumer.accept(jsonWriter);
-        jsonWriter.end();
+        // Keep parent start before creating child object
+        int startOfObject = m_startOfObject;
+        // Start new object
+        m_sb.append('{');
+        m_safePoint = m_startOfObject = m_sb.length();
+        try {
+            argsConsumer.accept(this);
+            markSafePoint();
+        } finally {
+            resetToLastSafePoint();
+            // Close object and continue parent object
+            m_sb.append('}');
+            m_startOfObject = startOfObject;
+            markSafePoint();
+        }
     }
 
     private void writeThrowable(Throwable throwable) {

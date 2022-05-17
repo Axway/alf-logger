@@ -143,7 +143,11 @@ public final class AlfJsonLayout extends AbstractStringLayout {
         if (message instanceof Log4j2Message) {
             Log4j2Message log4j2Message = (Log4j2Message) message;
             jsonWriter.add(m_messageKey, log4j2Message.getMessage());
-            jsonWriter.add("args", log4j2Message.getArgs());
+            try {
+                jsonWriter.add("args", log4j2Message.getArgs());
+            } catch (Throwable e) {
+                jsonWriter.add("formatException", e);
+            }
         } else {
             jsonWriter.add(m_messageKey, message.getFormattedMessage());
         }

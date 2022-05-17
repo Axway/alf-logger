@@ -1,5 +1,6 @@
 package io.axway.alf.log4j2;
 
+import java.util.*;
 import java.util.function.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -19,7 +20,7 @@ import static org.apache.logging.log4j.Level.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("Duplicates")
-public class Log4j2LoggerTest {
+public final class Log4j2LoggerTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(Log4j2LoggerTest.class);
 
     private static final PatternLayout TTCC_LAYOUT = PatternLayout.newBuilder().withPattern("%date{ISO8601} [%thread] %level %logger - %message%n").build();
@@ -129,11 +130,48 @@ public class Log4j2LoggerTest {
 
     @Test(dataProvider = "logLevels")
     public void shouldHandleNullValue(Level level) {
-        //noinspection RedundantCast
         getMessageAndArgumentMethod(level).accept("Test", a -> a.add("object", (Object) null).add("string", (String) null));
 
         assertLog(JSON_APPENDER, "\"message\": \"Test\", \"args\": {\"object\": null, \"string\": null}}");
         assertLog(TTCC_APPENDER, "Test {\"args\": {\"object\": null, \"string\": null}}");
+    }
+
+    @Test(dataProvider = "logLevels")
+    public void shouldNotDiscardExceptionWhenCallingArgument(Level level) {
+        getMessageAndArgumentMethod(level).accept("Test", a -> a.add("A", "A").add("B", throwUponCall()));
+
+        assertLog(JSON_APPENDER, "\"message\": \"Test\", \"args\": {\"A\": \"A\"}");
+        assertLog(TTCC_APPENDER, "Test {\"args\": {\"A\": \"A\"}");
+    }
+
+    @Test(dataProvider = "logLevels")
+    public void shouldNotDiscardExceptionWhenFormattingObject(Level level) {
+        getMessageAndArgumentMethod(level).accept("Test", a -> a.add("A", "A").add("B", throwUponToString()));
+
+        assertLog(JSON_APPENDER, "\"message\": \"Test\", \"args\": {\"A\": \"A\"}");
+        assertLog(TTCC_APPENDER, "Test {\"args\": {\"A\": \"A\"}");
+    }
+
+    @Test(dataProvider = "logLevels")
+    public void shouldNotDiscardExceptionWhenFormattingList(Level level) {
+        getMessageAndArgumentMethod(level).accept("Test", a -> a.add("A", "A").add("B", List.of("B1", "B2", throwUponToString(), "B4")));
+
+        assertLog(JSON_APPENDER, "\"message\": \"Test\", \"args\": {\"A\": \"A\", \"B\": [\"B1\", \"B2\"]");
+        assertLog(TTCC_APPENDER, "Test {\"args\": {\"A\": \"A\", \"B\": [\"B1\", \"B2\"]");
+    }
+
+    @Test(dataProvider = "logLevels")
+    public void shouldNotDiscardExceptionWhenFormattingMap(Level level) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("B1", "B1");
+        map.put("B2", "B2");
+        map.put("B3", throwUponToString());
+        map.put("B4", "B4");
+
+        getMessageAndArgumentMethod(level).accept("Test", a -> a.add("A", "A").add("B", map));
+
+        assertLog(JSON_APPENDER, "\"message\": \"Test\", \"args\": {\"A\": \"A\", \"B\": {\"B1\": \"B1\", \"B2\": \"B2\"}}");
+        assertLog(TTCC_APPENDER, "Test {\"args\": {\"A\": \"A\", \"B\": {\"B1\": \"B1\", \"B2\": \"B2\"}}");
     }
 
     @Test
@@ -149,7 +187,7 @@ public class Log4j2LoggerTest {
     }
 
     private void assertLog(TestAppender appender, String content) {
-        assertThat(appender.lastLog()).contains(content + System.lineSeparator());
+        assertThat(appender.lastLog()).contains(content);
     }
 
     private static Consumer<String> getMessageMethod(Level level) {
@@ -218,6 +256,19 @@ public class Log4j2LoggerTest {
             default:
                 throw new UnsupportedOperationException();
         }
+    }
+
+    private int throwUponCall() {
+        throw new UnsupportedOperationException("call");
+    }
+
+    private Object throwUponToString() {
+        return new Object() {
+            @Override
+            public String toString() {
+                throw new UnsupportedOperationException("toString()");
+            }
+        };
     }
 
     @FunctionalInterface

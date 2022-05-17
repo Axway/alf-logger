@@ -5,7 +5,7 @@ import io.axway.alf.Arguments;
 import io.axway.alf.exception.ExceptionWithArguments;
 
 public final class JsonMessageFormatter {
-    private static final int DEFAULT_BUFFER_SIZE = 64;
+    private static final int DEFAULT_BUFFER_SIZE = 128;
 
     private static final JsonMessageFormatter INSTANCE = new JsonMessageFormatter();
     private static final char MESSAGE_SEPARATOR = ' ';
@@ -40,7 +40,13 @@ public final class JsonMessageFormatter {
 
     public void formatTo(StringBuilder buffer, String message, Throwable throwable) {
         buffer.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(buffer).add("exception", throwable).end();
+        final JsonWriter jsonWriter = new JsonWriter(buffer);
+        try {
+            jsonWriter.add("exception", throwable);
+        } catch (Throwable e) {
+            jsonWriter.add("formatException", e);
+        }
+        jsonWriter.end();
     }
 
     public String format(String message, Consumer<Arguments> arguments) {
@@ -51,7 +57,13 @@ public final class JsonMessageFormatter {
 
     public void formatTo(StringBuilder buffer, String message, Consumer<Arguments> arguments) {
         buffer.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(buffer).add("args", arguments).end();
+        final JsonWriter jsonWriter = new JsonWriter(buffer);
+        try {
+            jsonWriter.add("args", arguments);
+        } catch (Throwable e) {
+            jsonWriter.add("formatException", e);
+        }
+        jsonWriter.end();
     }
 
     public String format(String message, Consumer<Arguments> arguments, Throwable throwable) {
@@ -62,7 +74,13 @@ public final class JsonMessageFormatter {
 
     public void formatTo(StringBuilder buffer, String message, Consumer<Arguments> arguments, Throwable throwable) {
         buffer.append(message).append(MESSAGE_SEPARATOR);
-        new JsonWriter(buffer).add("args", arguments).add("exception", throwable).end();
+        final JsonWriter jsonWriter = new JsonWriter(buffer);
+        try {
+            jsonWriter.add("args", arguments).add("exception", throwable);
+        } catch (Throwable e) {
+            jsonWriter.add("formatException", e);
+        }
+        jsonWriter.end();
     }
 
     private JsonMessageFormatter() {
