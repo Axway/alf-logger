@@ -2,9 +2,9 @@ package io.axway.alf.log4j2.layout;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import javax.annotation.*;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
@@ -49,8 +49,8 @@ public final class AlfJsonLayout extends AbstractStringLayout {
 
         @Override
         public AlfJsonLayout build() {
-            DateFormat dateFormat = m_dateFormat == null ? null : new SimpleDateFormat(m_dateFormat);
-            return new AlfJsonLayout(getConfiguration(), getCharset(), getHeaderSerializer(), getFooterSerializer(), dateFormat, m_threadPrinting,
+            DateTimeFormatter dateTimeFormatter = m_dateFormat == null ? null : DateTimeFormatter.ofPattern(m_dateFormat).withZone(ZoneId.systemDefault());
+            return new AlfJsonLayout(getConfiguration(), getCharset(), getHeaderSerializer(), getFooterSerializer(), dateTimeFormatter, m_threadPrinting,
                                      m_levelPrinting, m_loggerPrinting, m_contextPrinting, m_messageKey);
         }
 
@@ -91,17 +91,18 @@ public final class AlfJsonLayout extends AbstractStringLayout {
     }
 
     @Nullable
-    private final DateFormat m_dateFormat;
+    private final DateTimeFormatter m_dateTimeFormatter;
     private final boolean m_threadPrinting;
     private final boolean m_levelPrinting;
     private final boolean m_loggerPrinting;
     private final boolean m_contextPrinting;
     private final String m_messageKey;
 
-    public AlfJsonLayout(Configuration config, Charset aCharset, Serializer headerSerializer, Serializer footerSerializer, @Nullable DateFormat dateFormat,
-                         boolean threadPrinting, boolean levelPrinting, boolean loggerPrinting, boolean contextPrinting, String messageKey) {
+    public AlfJsonLayout(Configuration config, Charset aCharset, Serializer headerSerializer, Serializer footerSerializer,
+                         @Nullable DateTimeFormatter dateTimeFormatter, boolean threadPrinting, boolean levelPrinting, boolean loggerPrinting,
+                         boolean contextPrinting, String messageKey) {
         super(config, aCharset, headerSerializer, footerSerializer);
-        m_dateFormat = dateFormat;
+        m_dateTimeFormatter = dateTimeFormatter;
         m_threadPrinting = threadPrinting;
         m_levelPrinting = levelPrinting;
         m_loggerPrinting = loggerPrinting;
@@ -114,8 +115,8 @@ public final class AlfJsonLayout extends AbstractStringLayout {
         StringBuilder sb = new StringBuilder(128);
         JsonWriter jsonWriter = new JsonWriter(sb);
 
-        if (m_dateFormat != null) {
-            jsonWriter.add("time", m_dateFormat.format(new Date(event.getTimeMillis())));
+        if (m_dateTimeFormatter != null) {
+            jsonWriter.add("time", m_dateTimeFormatter.format(Instant.ofEpochMilli(event.getTimeMillis())));
         } else {
             jsonWriter.add("time", event.getTimeMillis());
         }
